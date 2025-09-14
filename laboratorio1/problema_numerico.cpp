@@ -1,5 +1,7 @@
 # include<iostream> //Libreria para entrada y salida estándar
+#include <chrono>     // Librería para medir tiempos
 using namespace std;
+using namespace std::chrono; // Para no escribir std::chrono:: en cada uso
 //-----------------------------------------------------------
 // Algoritmo de Euclides para el MCD
 // Utiliza el método de divisiones sucesivas
@@ -29,9 +31,26 @@ int main() {
     //Entrada de datos
     cout << "Ingresar dos números:";
     cin>> a >> b;
+
+    // ===== Euclides =====
+    auto start1 = high_resolution_clock::now();     // Tiempo inicio
+    int resultado1 = mcd_euclides(a, b);            // Ejecuta el método
+    auto end1 = high_resolution_clock::now();       // Tiempo fin
+    auto duracion1 = duration_cast<nanoseconds>(end1 - start1); // Diferencia en nanosegundos
+
+    // ===== Bucle =====
+    auto start2 = high_resolution_clock::now();
+    int resultado2 = mcd_bucle(a, b);
+    auto end2 = high_resolution_clock::now();
+    auto duracion2 = duration_cast<nanoseconds>(end2 - start2);
+
+
     //Resultados
-    cout<<"MCD con Euclides: "<< mcd_euclides(a, b)<< endl;
-    cout<<"MCD con bucle: "<< mcd_bucle(a, b)<< endl;
+    cout << "MCD con Euclides: " << resultado1 << " (tiempo: " 
+         << duracion1.count() << " ns)" << endl;
+
+    cout << "MCD con bucle: " << resultado2 << " (tiempo: " 
+         << duracion2.count() << " ns)" << endl;
 
     return 0;
 }
