@@ -1,6 +1,8 @@
 #include <iostream> //Libreria para entrada y salida estándar
 #include <string>   //Libreria para manipulación de cadenas
+#include <chrono>   // Libreria para medir tiempos
 using namespace std; // Evitar usar std:: en cada uso de cin, cout, string
+using namespace std::chrono; // Para no escribir std::chrono:: en cada uso
 //-----------------------------------------------------------
 // Bùsqueda de cadena de texto(fuerza bruta)
 bool buscarEnTexto(string texto, string palabra){
@@ -78,22 +80,31 @@ int main() {
     cout << "Ingrese la palabra a buscar: ";
     cin >> palabra;
 
-    // --- Buscar en el texto ---
+    // ===== Búsqueda en texto (fuerza bruta) =====
+    auto start1 = high_resolution_clock::now();
     bool encontradoTexto = buscarEnTexto(texto, palabra);
+    auto end1 = high_resolution_clock::now();
+    auto duracion1 = duration_cast<nanoseconds>(end1 - start1);
+
     cout << "Resultado en texto: "
-         << (encontradoTexto ? "Encontrada" : "No encontrada") << endl;
+         << (encontradoTexto ? "Encontrada" : "No encontrada")
+         << " (tiempo: " << duracion1.count() << " ns)" << endl;
 
-    // --- Lista de palabras (no está ordenada al inicio) ---
+    // ===== Lista de palabras =====
     string lista[] = {"algoritmos", "binaria", "busqueda", "palabra", "palabra", "texto"};
-    int n = 6; // número de elementos en la lista
+    int n = 6;
 
-    // Ordenamos la lista con burbuja
-    ordenarBurbuja(lista, n);
+    ordenarBurbuja(lista, n); // Ordenamos antes de binaria
 
-    // Buscamos la palabra en la lista ya ordenada con binaria
+    // ===== Búsqueda en lista ordenada (binaria) =====
+    auto start2 = high_resolution_clock::now();
     bool encontradoLista = busquedaBinaria(lista, n, palabra);
-    cout << "Resultado en lista ordenada: "
-         << (encontradoLista ? "Encontrada" : "No encontrada") << endl;
+    auto end2 = high_resolution_clock::now();
+    auto duracion2 = duration_cast<nanoseconds>(end2 - start2);
 
-    return 0; // Fin del programa
+    cout << "Resultado en lista ordenada: "
+         << (encontradoLista ? "Encontrada" : "No encontrada")
+         << " (tiempo: " << duracion2.count() << " ns)" << endl;
+
+    return 0;
 }
