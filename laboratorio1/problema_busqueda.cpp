@@ -24,6 +24,22 @@ bool buscarEnTexto(string texto, string palabra){
 }
 
 // -----------------------------------------------------------
+// Ordenamiento burbuja para ordenar la lista alfabéticamente
+// -----------------------------------------------------------
+void ordenarBurbuja(string lista[], int n) {
+    for(int i = 0; i < n - 1; i++) {
+        for(int j = 0; j < n - i - 1; j++) {
+            if(lista[j] > lista[j + 1]) {
+                // Intercambiar elementos
+                string temp = lista[j];
+                lista[j] = lista[j + 1];
+                lista[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// -----------------------------------------------------------
 // Búsqueda binaria en lista ordenada
 // -----------------------------------------------------------
 bool busquedaBinaria(string lista[], int n, string palabra) {
